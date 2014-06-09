@@ -1,0 +1,43 @@
+{
+  "class": "eu.sathra.scene.SpriteNode",
+  "is_visible": true,
+  "sprite": {
+  	"width":2000,
+  	"height":800,
+    "texture": {
+      "filename": "bg_3.png"
+    },
+    "pivot_x": "0.5",
+    "pivot_y": "0.5"
+  },
+  "children": [
+    	    {
+      "class": "eu.sathra.scene.CameraNode"
+    },
+  	{
+  		"id":"aliens"
+  	},
+  	{
+  		"id":"player"
+  	},
+
+
+    {
+      "class": "eu.sathra.scene.LightNode",
+      "is_visible": true,
+      "sprite": {
+        "texture": {
+          "filename": "base_sheet.png"
+        },
+        "pivot_x": "0.50",
+        "pivot_y": "0.50",
+        "clip": {
+          "x": 646,
+          "y": 368,
+          "w": 244,
+          "h": 244
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sathra="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:gravity="left"
+    android:orientation="vertical" >
+
+    <eu.sathra.view.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sfx"
+        android:textColor="@color/selector_menu_item"
+        android:textSize="70sp"
+        sathra:fontFamily="visitor.ttf" />
+
+    <SeekBar 
+        android:id="@+id/preferences_sfx"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/layer_seekbar"
+        android:thumb="@android:color/transparent"
+        android:layout_marginBottom="15dp"
+        android:max="100"/>
+    
+    <eu.sathra.view.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/music"
+        android:textColor="@color/selector_menu_item"
+        android:textSize="70sp"
+        sathra:fontFamily="visitor.ttf" />
+    
+    <SeekBar 
+        android:id="@+id/preferences_music"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/layer_seekbar"
+        android:thumb="@android:color/transparent"
+        android:layout_marginBottom="15dp"
+        android:max="100"/>
+
+    <eu.sathra.view.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sensitivity"
+        android:textColor="@color/selector_menu_item"
+        android:textSize="70sp"
+        sathra:fontFamily="visitor.ttf" />
+    
+    <SeekBar 
+        android:id="@+id/preferences_sensitivity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/layer_seekbar"
+        android:thumb="@android:color/transparent"
+        android:max="200"/>
+
+</LinearLayout>

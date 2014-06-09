@@ -1,0 +1,393 @@
+{
+  "ai": {
+    "class": "eu.sathra.ai.ConcurrentTask",
+    "children": [
+      {
+        "class": "eu.sathra.ai.SelectorTask",
+        "children": [
+	      {
+            "class": "eu.sathra.ai.SequencerTask",
+            "name": "death",
+            "children": [
+            	{
+	                "class": "eu.sathra.ai.ConditionTask",
+	                "name": "damage",
+	                "expression": "health <= 0"
+              	},
+              	{
+	                "class": "eu.sathra.ai.ToggleTask",
+	                "node_id": "state_death",
+	                "toggle_siblings": "true"
+              	},
+              	{	
+              		"class": "eu.sathra.tryton4.ai.PlayerDeathTask"
+              	},
+              	{
+	                "class": "eu.sathra.ai.PlaySoundTask",
+	                "sound": "sounds/player_death.mp3"
+	            }
+            ]
+          },
+          {
+            "class": "eu.sathra.ai.SequencerTask",
+            "name": "damage",
+            "children": [
+              {
+                "class": "eu.sathra.ai.ConditionTask",
+                "name": "damage",
+                "expression": "damage > 0"
+              },
+              {
+                "class": "eu.sathra.ai.ExpressionTask",
+                "expression": "health = health - damage; damage = 0; ui_mediator.setHealth(health);"
+              },
+              {
+                "class": "eu.sathra.ai.SequencerTask",
+                "name": "",
+                "children": [
+                  {
+                    "class": "eu.sathra.ai.PlaySoundTask",
+                    "sound": "sounds/player_damage.mp3"
+                  },
+                  {
+                    "class": "eu.sathra.ai.WaitTask",
+                    "duration": 1000
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "class": "eu.sathra.tryton4.ai.PlayerControlTask",
+        "name": "control"
+      },
+      {
+        "class": "eu.sathra.ai.SelectorTask",
+        "children": [
+          {
+            "class": "eu.sathra.ai.SequencerTask",
+            "name": "reload",
+            "children": [
+              {
+                "class": "eu.sathra.ai.ConditionTask",
+                "name": "is out of ammo?",
+                "expression": "rifle_ammo <= 0 || ui_mediator.isReloading()"
+              },
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_reload_rifle",
+                "toggle_siblings": "true"
+              },
+              {
+                "class": "eu.sathra.ai.PlaySoundTask",
+                "sound": "sounds/rifle_reload.mp3"
+              },
+              {
+                "class": "eu.sathra.ai.AnimateSpriteTask",
+                "node": "state_reload_rifle",
+                "count": "1"
+              },
+              {
+                "class": "eu.sathra.ai.ExpressionTask",
+                "expression": "rifle_ammo = rifle_capacity"
+              },
+              {
+                "class": "eu.sathra.ai.ExpressionTask",
+                "expression": "ui_mediator.setAmmo(rifle_ammo, rifle_capacity)"
+              }
+            ]
+          },
+          {
+            "class": "eu.sathra.ai.SequencerTask",
+            "name": "shoot",
+            "children": [
+              {
+                "class": "eu.sathra.ai.ConditionTask",
+                "name": "is shoot button pressed?",
+                "expression": "ui_mediator.isShooting()"
+              },
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_shoot_rifle",
+                "toggle_siblings": "true"
+              },
+              {
+                "class": "eu.sathra.tryton4.ai.ShootRifleTask"
+              },
+              {
+                "class": "eu.sathra.ai.ExpressionTask",
+                "expression": "rifle_ammo=rifle_ammo-1; ui_mediator.setAmmo(rifle_ammo, rifle_capacity)"
+              },
+              {
+                "class": "eu.sathra.ai.SequencerTask",
+                "name": "",
+                "children": [
+                  {
+                    "class": "eu.sathra.ai.WaitTask",
+                    "duration": 100
+                  },
+                  {
+                    "class": "eu.sathra.ai.PlaySoundTask",
+                    "sound": "sounds/rifle_shoot.ogg"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "class": "eu.sathra.ai.ToggleTask",
+            "name": "idle",
+            "node_id": "state_idle_rifle",
+            "toggle_siblings": "true",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "class": "eu.sathra.physics.dyn4j.Dyn4jBody",
+    "mask": 1,
+    "shape": {
+      "class": "eu.sathra.physics.shapes.Rectangle",
+      "bounds": {
+        "x": -48,
+        "y": -34,
+        "w": 96,
+        "h": 68
+      }
+    }
+  },
+  "children": [
+
+    {
+      "id": "states",
+      "transform":{"x":18},
+      "children": [
+      	{
+      	  "class": "eu.sathra.scene.SpriteNode",
+          "id": "state_death",
+          "is_visible": false,
+          "sprite": {
+            "texture": {
+              "filename": "base_sheet.png"
+            },
+            "pivot_x": "0.5",
+            "pivot_y": "0.5",
+            "clip": {"x":2,"y":2,"w":150,"h":156}
+          }	
+      	},
+        {
+          "class": "eu.sathra.scene.SpriteNode",
+          "id": "state_idle_rifle",
+          "visible": true,
+          "sprite": {
+            "texture": {
+              "filename": "base_sheet.png"
+            },
+            "pivot_x": "0.5",
+            "pivot_y": "0.5",
+            "clip": {
+              "x": 892,
+              "y": 368,
+              "w": 93,
+              "h": 66
+            }
+          }
+        },
+        {
+          "class": "eu.sathra.scene.AnimatedSpriteNode",
+          "id": "state_shoot_rifle",
+          "is_visible": false,
+          "transform": {
+            "x": 33,
+            "y": -14
+          },
+          "visible": false,
+          "duration": 300,
+          "frames": [
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 715,
+                "y": 614,
+                "w": 168,
+                "h": 108
+              }
+            },
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 2,
+                "y": 724,
+                "w": 168,
+                "h": 108
+              }
+            },
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 172,
+                "y": 724,
+                "w": 168,
+                "h": 108
+              }
+            }
+          ],
+          "children": [
+          	{
+          		"class": "eu.sathra.scene.LightNode",
+          		"sprite": {
+	              "texture": {
+	                "filename": "base_sheet.png"
+	              },
+	              "pivot_x": "0",
+	              "pivot_y": "0.5",
+	              "clip": {
+	                "x": 0,
+	                "y": 832,
+	                "w": 331,
+	                "h": 192
+	              }
+	            },
+	            "animation": {
+	            	"duration":50,
+	            	"from": {"scale_x":0, "scale_y":0},
+	            	"to": {"scale_x":2, "scale_y":2}
+	            }
+          	},
+            {
+              "class": "eu.sathra.scene.ParticleEmitterNode",
+              "transform": {
+                "x": 25
+              },
+              "params": {
+                "is_emitting": true,
+                "particle": {
+                  "texture": {
+                    "filename": "base_sheet.png"
+                  },
+                  "pivot_x": "0.5",
+                  "pivot_y": "0.5",
+                  "clip": {
+                    "x": 301,
+                    "y": 772,
+                    "w": 6,
+                    "h": 6
+                  }
+                },
+                "min_emision": 12,
+                "max_emision": 12,
+                "min_life": 500,
+                "max_life": 500,
+                "direction": {
+                  "x": 1000,
+                  "y": 0,
+                  "scale_x": 1,
+                  "scale_y": 1
+                },
+                "variance": {
+                  "x": 0,
+                  "y": 0,
+                  "scale_x": 0,
+                  "scale_y": 0
+                },
+                "width": 1,
+                "height": 1
+              }
+            }
+          ]
+        },
+        {
+          "class": "eu.sathra.scene.AnimatedSpriteNode",
+          "id": "state_reload_rifle",
+          "is_visible": false,
+          "duration": 700,
+          "count": 1,
+          "is_playing": false,
+          "frames": [
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 225,
+                "y": 614,
+                "w": 96,
+                "h": 67
+              }
+            },
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 323,
+                "y": 614,
+                "w": 96,
+                "h": 67
+              }
+            },
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 421,
+                "y": 614,
+                "w": 96,
+                "h": 67
+              }
+            },
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 519,
+                "y": 614,
+                "w": 96,
+                "h": 67
+              }
+            },
+            {
+              "texture": {
+                "filename": "base_sheet.png"
+              },
+              "pivot_x": "0.5",
+              "pivot_y": "0.5",
+              "clip": {
+                "x": 617,
+                "y": 614,
+                "w": 96,
+                "h": 67
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

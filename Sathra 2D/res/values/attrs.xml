@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TextView">
+        <attr name="fontFamily" format="string" />
+        <attr name="colored" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="DPadView">
+        <attr name="radius" format="integer" />
+        <attr name="resetOnUp" format="boolean" />
+    </declare-styleable>
+
+</resources>

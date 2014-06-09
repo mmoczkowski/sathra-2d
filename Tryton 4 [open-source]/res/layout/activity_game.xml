@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sathra="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/black"
+    tools:ignore="ContentDescription" >
+
+    <android.opengl.GLSurfaceView
+        android:id="@id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center" >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="2" />
+
+        <ImageView
+            android:id="@+id/ic_health"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/img_hud_health" />
+
+        <eu.sathra.view.TextView
+            android:id="@+id/hud_health"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="100"
+            android:textColor="@color/selector_menu_item"
+            android:textSize="@dimen/hud_text_size"
+            sathra:fontFamily="visitor.ttf" />
+
+        <ImageView
+            android:id="@+id/ic_ammo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/img_hud_ammo" />
+
+        <eu.sathra.view.TextView
+            android:id="@+id/hud_ammo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="100"
+            android:textColor="@color/selector_menu_item"
+            android:textSize="@dimen/hud_text_size"
+            sathra:fontFamily="visitor.ttf" />
+
+        <ImageView
+            android:id="@+id/hud_score_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/img_hud_score" />
+
+        <eu.sathra.view.TextView
+            android:id="@+id/hud_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="0"
+            android:textColor="@color/selector_menu_item"
+            android:textSize="@dimen/hud_text_size"
+            sathra:fontFamily="visitor.ttf" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="2" />
+
+        <ImageView
+            android:id="@+id/hud_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/selector_hud_pause" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/hud_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:layout_toLeftOf="@+id/hud_a"
+        android:clickable="true"
+        android:src="@drawable/selector_hud_b" />
+
+    <ImageView
+        android:id="@+id/hud_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/hud_b"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:clickable="true"
+        android:src="@drawable/selector_hud_a" />
+
+    <eu.sathra.view.DPadView
+        android:id="@+id/hud_dpad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/hud_b"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/selector_hud_dpad"
+        sathra:resetOnUp="false" />
+
+</RelativeLayout>

@@ -1,0 +1,457 @@
+{
+  "ai": {
+    "class": "eu.sathra.ai.ConcurrentTask",
+    "children": [
+      {
+        "class": "eu.sathra.ai.SequencerTask",
+        "name": "damage",
+        "children": [
+          {
+            "class": "eu.sathra.ai.ConditionTask",
+            "expression": "damage > 0",
+            "children": []
+          },
+          {
+            "class": "eu.sathra.ai.ExpressionTask",
+            "name": "reset damage",
+            "expression": "health = health - damage; damage = 0;",
+            "children": []
+          },
+          {
+            "class": "eu.sathra.ai.ToggleTask",
+            "node_id": "state_damage",
+            "toggle_siblings": "false",
+            "children": []
+          },
+          {
+            "class": "eu.sathra.ai.EmitParticlesTask",
+            "node_id": "state_damage",
+            "count": "1"
+          }
+        ]
+      },
+      
+      {
+        "class": "eu.sathra.ai.SelectorTask",
+        "children": [
+        {
+        "class": "eu.sathra.ai.SequencerTask",
+        "name": "dead",
+        "children": [
+          {
+            "class": "eu.sathra.ai.ConditionTask",
+            "expression": "health <= 0",
+            "children": []
+          },
+          {
+            "class": "eu.sathra.ai.ExpressionTask",
+            "expression": "ui_mediator.incrementScore()"
+          },
+          {
+            "class": "eu.sathra.ai.RandomTask",
+            "children": [
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_dead_0",
+                "toggle_siblings": "true"
+              },
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_dead_1",
+                "toggle_siblings": "true"
+              },
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_dead_2",
+                "toggle_siblings": "true"
+              },
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_dead_3",
+                "toggle_siblings": "true"
+              }
+            ]
+          },
+          {
+            "class": "eu.sathra.ai.RandomTask",
+            "children": [
+              {
+                "class": "eu.sathra.ai.PlaySoundTask",
+                "sound": "sounds/alien_death_1.mp3"
+              },
+              {
+                "class": "eu.sathra.ai.PlaySoundTask",
+                "sound": "sounds/alien_death_2.mp3"
+              },
+              {
+                "class": "eu.sathra.ai.PlaySoundTask",
+                "sound": "sounds/alien_death_3.mp3"
+              }
+            ]
+          },
+          {
+            "class": "eu.sathra.tryton4.ai.AlienDeathTask"
+          }
+        ]
+      },
+          {
+            "class": "eu.sathra.ai.SequencerTask",
+            "name": "move",
+            "children": [
+              {
+                "class": "eu.sathra.tryton4.ai.MoveTask",
+                "children": []
+              },
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_move",
+                "toggle_siblings": "true",
+                "children": []
+              }
+            ]
+          },
+          {
+            "class": "eu.sathra.ai.SequencerTask",
+            "name": "attack",
+            "children": [
+              {
+                "class": "eu.sathra.ai.ToggleTask",
+                "node_id": "state_attack",
+                "toggle_siblings": "true",
+                "children": []
+              },
+              {
+                "class": "eu.sathra.ai.SequencerTask",
+                "name": "",
+                "children": [
+                  {
+                    "class": "eu.sathra.ai.WaitTask",
+                    "duration": 1000
+                  },
+                  {
+                    "class": "eu.sathra.tryton4.ai.AlienAttackTask"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "class": "eu.sathra.physics.dyn4j.Dyn4jBody",
+    "mass": 0,
+    "mask": 3,
+    "shape": {
+      "class": "eu.sathra.physics.shapes.Rectangle",
+      "bounds": {
+        "x": -68,
+        "y": -35,
+        "w": 136,
+        "h": 70
+      }
+    }
+  },
+  "children": [
+    {
+      "class": "eu.sathra.scene.AnimatedSpriteNode",
+      "id": "state_move",
+      "is_visible": true,
+      "duration": 300,
+      "frames": [
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 500,
+            "y": 2,
+            "w": 118,
+            "h": 80
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 620,
+            "y": 2,
+            "w": 118,
+            "h": 80
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 740,
+            "y": 2,
+            "w": 118,
+            "h": 80
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 860,
+            "y": 2,
+            "w": 118,
+            "h": 80
+          }
+        }
+      ]
+    },
+    {
+      "class": "eu.sathra.scene.AnimatedSpriteNode",
+      "id": "state_attack",
+      "is_visible": false,
+      "transform": {
+        "x": 40,
+        "y": 5
+      },
+      "duration": 1000,
+      "frames": [
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 2,
+            "y": 178,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 202,
+            "y": 178,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 402,
+            "y": 178,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 602,
+            "y": 178,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 802,
+            "y": 178,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 2,
+            "y": 273,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 202,
+            "y": 273,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 402,
+            "y": 273,
+            "w": 198,
+            "h": 93
+          }
+        },
+        {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 602,
+            "y": 273,
+            "w": 198,
+            "h": 93
+          }
+        }
+      ]
+    },
+    {
+      "class": "eu.sathra.scene.SpriteNode",
+      "id": "state_dead_4",
+      "is_visible": false,
+      "sprite": {
+        "texture": {
+          "filename": "base_sheet.png"
+        },
+        "pivot_x": "0.5",
+        "pivot_y": "0.5",
+        "clip": {
+          "x": 340,
+          "y": 840,
+          "w": 150,
+          "h": 150
+        }
+      }
+    },
+    {
+      "class": "eu.sathra.scene.SpriteNode",
+      "id": "state_dead_1",
+      "is_visible": false,
+      "sprite": {
+        "texture": {
+          "filename": "base_sheet.png"
+        },
+        "pivot_x": "0.5",
+        "pivot_y": "0.5",
+        "clip": {
+          "x": 515,
+          "y": 840,
+          "w": 150,
+          "h": 150
+        }
+      }
+    },
+    {
+      "class": "eu.sathra.scene.SpriteNode",
+      "id": "state_dead_2",
+      "is_visible": false,
+      "sprite": {
+        "texture": {
+          "filename": "base_sheet.png"
+        },
+        "pivot_x": "0.5",
+        "pivot_y": "0.5",
+        "clip": {
+          "x": 685,
+          "y": 840,
+          "w": 150,
+          "h": 150
+        }
+      }
+    },
+    {
+      "class": "eu.sathra.scene.SpriteNode",
+      "id": "state_dead_3",
+      "is_visible": false,
+      "sprite": {
+        "texture": {
+          "filename": "base_sheet.png"
+        },
+        "pivot_x": "0.5",
+        "pivot_y": "0.5",
+        "clip": {
+          "x": 870,
+          "y": 840,
+          "w": 150,
+          "h": 150
+        }
+      }
+    },
+    {
+      "class": "eu.sathra.scene.ParticleEmitterNode",
+      "id": "state_damage",
+      "params": {
+        "is_emitting": false,
+        "particle": {
+          "texture": {
+            "filename": "base_sheet.png"
+          },
+          "pivot_x": "0.5",
+          "pivot_y": "0.5",
+          "clip": {
+            "x": 366,
+            "y": 64,
+            "w": 4,
+            "h": 4
+          }
+        },
+        "min_emision": 6,
+        "max_emision": 12,
+        "min_life": 200,
+        "max_life": 500,
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "scale_x": 1,
+          "scale_y": 1
+        },
+        "variance": {
+          "x": 40,
+          "y": 40,
+          "scale_x": 0,
+          "scale_y": 0
+        },
+        "width": 10,
+        "height": 10
+      }
+    }
+  ]
+}

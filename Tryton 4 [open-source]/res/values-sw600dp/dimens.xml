@@ -1,0 +1,5 @@
+<resources>
+	<dimen name="hud_text_size">50sp</dimen>
+	<dimen name="dialog_title_text_size">90sp</dimen>
+	<dimen name="dialog_button_text_size">60sp</dimen>
+</resources>
