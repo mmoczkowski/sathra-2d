@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2014 SATHRA Milosz Moczkowski, milosz.moczkowski@sathra.eu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package eu.sathra.tryton4.activities;
 
 import java.util.LinkedList;
@@ -13,7 +28,6 @@ import eu.sathra.ai.context.AIContext;
 import eu.sathra.scene.SceneNode;
 import eu.sathra.tryton4.R;
 import eu.sathra.tryton4.UIMediator;
-import eu.sathra.tryton4.Weapon;
 import eu.sathra.tryton4.ai.ContextKeys;
 import eu.sathra.tryton4.fragments.PauseDialog;
 import eu.sathra.util.Log;
@@ -162,7 +176,6 @@ public class GameActivity extends SathraActivity implements OnClickListener {
 	private void setupPlayer() {
 		AIContext context = mPlayerNode.getAIContext();
 		context.setVariable(ContextKeys.KEY_UI_MEDIATOR, mMediator);
-		context.setVariable(ContextKeys.KEY_CURRENT_WEAPON, Weapon.Type.FLAMER);
 		context.setVariable(ContextKeys.KEY_RIFLE_AMMO, 30);
 		context.setVariable(ContextKeys.KEY_RIFLE_CAPACITY, 30);
 		context.setVariable(ContextKeys.KEY_DAMAGE, 0);
