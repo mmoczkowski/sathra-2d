@@ -4,7 +4,6 @@ SATHRA 2D
 Sathra is an open-source, 2D game engine for Android.
 
 ![](http://i.imgur.com/v0t1LJr.png)
-[Download Tryton 4, game made with Sathra](https://play.google.com/store/apps/details?id=eu.sathra.tryton4)
 
 Sathra Design Guidelines
 -----------
